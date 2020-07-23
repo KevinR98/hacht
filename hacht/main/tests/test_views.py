@@ -173,23 +173,6 @@ class WebTestCase(TestCase):
         response = self.client.get('/dashboard_pacientes/')
         self.assertEquals(response.status_code, 401)
         self.assertTemplateUsed(response, 'index/error.html')
-    #todo
-    def test_dashboard_pacientes_post_nuevo_paciente(self):
-
-
-        data = {
-            'ced' : ['12345'],
-            'nombre': ['Nombre'],
-            'res': ['Lugar'],
-            'edad': 100,
-            'sexo': 0
-        }
-
-
-        #response = self.client.post('/index/components/descriptivo_paciente.html/', data)
-
-        #self.assertEquals(response.status_code, 302)
-        #self.assertRedirects(response, '/dashboard_pacientes/')
 
 
     def test_dashboard_pacientes_post_error(self):
