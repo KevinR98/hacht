@@ -1,5 +1,9 @@
-# Proyecto HACHT
+# Proyecto HACHT (Testing)
 
+## Fork
+Este es un fork del proyecto original "HACHT", se agrega logica de testing.
+
+## Readme de proyecto original
 En este repositorio se encuentra la versión más actualizada del proyecto "HACHT". Esto comprende la aplicación en django, por lo que se tiene tanto el cliente web de la aplicación, como el server que alimenta las peticiones dicho cliente y el cliente móvil.
 
 La estructura del código en el repositorio es la misma que la de un proyecto de django estándar. En la raíz de este, se incluyen archivos txt con las dependencias necesarias para correr el servidor.
