@@ -2,6 +2,10 @@
 
 ## Fork
 Este es un fork del proyecto original "HACHT", se agrega logica de testing.
+Componentes agregados:
+* Se agregan 30 unit tests en la carpeta /main/tests que prueban el funcionamiento correcto de los metodos de views.py
+* Se agrega 1 nueva libreria al archivo de requerimientos para la utilizacion de la herramienta django-nose
+
 
 ## Readme de proyecto original
 En este repositorio se encuentra la versión más actualizada del proyecto "HACHT". Esto comprende la aplicación en django, por lo que se tiene tanto el cliente web de la aplicación, como el server que alimenta las peticiones dicho cliente y el cliente móvil.
