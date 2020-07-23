@@ -1,21 +1,13 @@
-import codecs
 import os
-import json
 from django.contrib.auth.models import User, AnonymousUser
-from django.core.exceptions import ObjectDoesNotExist
 from django.test import TestCase, Client, RequestFactory
 from django.conf import settings as s
 
 from ..Analytics import Sorters
-from ..forms import RegistrationForm, Data_PacienteN
 from ..models import Paciente, Sesion, Muestra
-from ..views import login_app, index, ayuda, handle_error, crear_csv_demo, handle_500_error
-
-
-#from ..Clients.Implementations import Web
+from ..views import handle_error, crear_csv_demo, handle_500_error
 
 class WebTestCase(TestCase):
-    client = None
 
     def setUp(self):
         self.client = Client()
