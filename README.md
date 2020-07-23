@@ -1,4 +1,4 @@
-# Proyecto HACHT (Testing)
+# Proyecto HACHT (Testing Fork)
 
 ## Fork
 Este es un fork del proyecto original "HACHT", se agrega logica de testing.
