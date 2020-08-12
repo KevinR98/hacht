@@ -17,8 +17,10 @@ class Registration_page(Base):
         self.input_uso = '//*[@id="id_uso"]'
         self.boton_submit = '/html/body/main/section/div/form/button'
 
-        self.modal_success = '/html/body/div/div'
+        self.modal_success = '/html/body/div/div/div[1]'
         self.error_message = '/html/body/main/section/div/form/label[3]'
+
+
 
         super(Registration_page, self).__init__(driver)
 

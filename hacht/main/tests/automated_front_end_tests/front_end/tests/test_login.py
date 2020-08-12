@@ -1,7 +1,6 @@
 
 import time
-from django.contrib.auth.models import User
-from django.test import TestCase, Client, RequestFactory
+from django.test import TestCase
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
@@ -36,7 +35,6 @@ class LoginTestCase(TestCase):
         register_p = index_p.click_header_registrarse()
         register_p.registrarse("", "fgr@email.com", '12345', 'medico', 'Empresa', 'Prueba')
 
-        #time.sleep(5)
         self.assertTrue(register_p.find_element_x_path(register_p.error_message))
 
     def test_caso_prueba_3(self):
@@ -60,56 +58,160 @@ class LoginTestCase(TestCase):
 
         self.assertTrue(demo_p.find_element_x_path(demo_p.card_prediccion_texto))
 
-
+    #Caso de prueba es erroneo se redirige a un dashboard
     def test_caso_prueba_6(self):
-        index_p = self.page
+        page = self.page
 
-        current_p = index_p.click_header_ingresar()
-        current_p = current_p.iniciar_sesion('correo@email.com', '12345')
+        page = page.click_header_ingresar()
+        page.iniciar_sesion('correo@email.com', '12345', False)
+        time.sleep(3)
 
-        self.assertEquals('http://127.0.0.1:8000/', current_p.get_url())
+        self.assertEquals('http://127.0.0.1:8000/dashboard_pacientes/', page.get_url())
 
-    #Funcionalidad ya no existe
+
     def test_caso_prueba_7(self):
-        index_p = self.page
+        page = self.page
 
-        current_p = index_p.click_header_ingresar()
-        current_p = current_p.iniciar_sesion('correo@email.com', '12345')
+        page = page.click_header_ingresar()
+        page.iniciar_sesion('correo@email.com', '12345', True)
+        time.sleep(3)
+        page.driver.close()
 
-        current_p.driver.close()
-        current_p.driver = webdriver.Firefox()
-        current_p.go_to('http://127.0.0.1:8000/')
+        page = Index_page(page.driver)
+        page.driver = webdriver.Firefox()
+        page.go_to('http://127.0.0.1:8000/')
 
-        self.assertTrue(current_p.find_element_by_xpath(current_p.log_header_cerrar))
+        self.assertTrue(page.find_element_x_path(page.user_email_text))
+        page.driver.quit()
 
-    #Funcionalidad ya no existe
     def test_caso_prueba_8(self):
-        index_p = self.page
+        page = self.page
 
-        current_p = index_p.click_header_ingresar()
-        current_p = current_p.iniciar_sesion('correo@email.com', '12345')
+        page = page.click_header_ingresar()
+        page.iniciar_sesion('correo@email.com', '12345', False)
+        time.sleep(3)
+        page.driver.close()
 
-        current_p.driver.close()
-        current_p.driver = webdriver.Firefox()
-        current_p.go_to('http://127.0.0.1:8000/')
+        page = Index_page(page.driver)
+        page.driver = webdriver.Firefox()
+        page.go_to('http://127.0.0.1:8000/')
 
-        self.assertTrue(not current_p.find_element_by_xpath(current_p.log_header_cerrar))
+        self.assertTrue(not page.find_element_x_path(page.user_email_text))
+        page.driver.quit()
 
     def test_caso_prueba_9(self):
-        index_p = self.page
+        page = self.page
 
-        current_p = index_p.click_header_ingresar()
-        current_p = current_p.iniciar_sesion('correo@email.com', '12345')
+        page = page.click_header_ingresar()
+        page.iniciar_sesion('correo@email.com', '12345', False)
+        time.sleep(3)
 
-        current_p.click_header_cerrar()
+        page = Index_page(page.driver)
+        page.go_to('http://127.0.0.1:8000/')
+        page.click_header_cerrar()
+        time.sleep(3)
 
-        self.assertEquals('http://127.0.0.1:8000/', current_p.get_url())
-        self.assertTrue(not current_p.find_element_by_xpath(current_p.user_email_text))
+        self.assertEquals('http://127.0.0.1:8000/', page.get_url())
+        self.assertTrue(not page.find_element_x_path(page.user_email_text))
 
     def test_caso_prueba_10(self):
-        index_p = self.page
+        page = self.page
 
-        contact_us_p = index_p.click_header_contactenos()
-        contact_us_p.enviar_mensaje('nombre', 'Asunto de prueba',
+        page = page.click_header_contactenos()
+        page.enviar_mensaje('nombre', 'Asunto de prueba',
                                     'correo@email.com', 'Este es un mensaje de prueba')
-        
+        time.sleep(3)
+        self.assertTrue(page.find_element_x_path(page.modal_success))
+
+    def test_caso_prueba_11(self):
+        index_p = self.page
+        help_p = index_p.click_footer_ayuda()
+        self.assertEquals('http://127.0.0.1:8000/help/', help_p.get_url())
+
+    def test_caso_prueba_12(self):
+        page = self.page
+        page = page.click_header_ingresar()
+        page = page.iniciar_sesion('medico@email.com', '12345')
+        page = page.click_header_mis_pacientes()
+        self.assertEquals('http://127.0.0.1:8000/dashboard_pacientes/', page.get_url())
+
+    def test_caso_prueba_16(self):
+        page = self.page
+        page = page.click_header_ingresar()
+        page = page.iniciar_sesion('medico@email.com', '12345')
+        page = page.click_header_mis_pacientes()
+        page = page.click_paciente_sesiones()
+
+        self.assertEquals('http://127.0.0.1:8000/dashboard_sesiones/', page.get_url())
+
+
+    def test_caso_prueba_20(self):
+        page = self.page
+        page = page.click_header_ingresar()
+        page = page.iniciar_sesion('investigador@email.com', '12345')
+        page.go_to('http://127.0.0.1:8000/dashboard_pacientes/')
+
+        self.assertTrue(page.find_element_x_path(page.element_error))
+
+
+
+    def test_caso_prueba_21(self):
+        page = self.page
+        page = page.click_header_ingresar()
+        page = page.iniciar_sesion('investigador@email.com', '12345')
+        page = Index_page(page.driver)
+        page.click_header_mis_sesiones()
+
+        self.assertEquals('http://127.0.0.1:8000/dashboard_sesiones/', page.get_url())
+
+    def test_caso_prueba_24(self):
+        page = self.page
+        page.go_to('http://127.0.0.1:8000/dashboard_sesiones/')
+        self.assertTrue(page.find_element_x_path(page.element_error))
+
+    def test_caso_prueba_25(self):
+        page = self.page
+        page.go_to('http://127.0.0.1:8000/dashboard_pacientes/')
+        self.assertTrue(page.find_element_x_path(page.element_error))
+
+    def test_caso_prueba_26(self):
+        page = self.page
+
+        self.assertTrue(page.find_element_x_path(page.header_demo))
+        self.assertTrue(page.find_element_x_path(page.header_contactenos))
+        self.assertTrue(page.find_element_x_path(page.header_sobre_nosotros))
+        self.assertTrue(page.find_element_x_path(page.header_ingresar))
+        self.assertTrue(page.find_element_x_path(page.header_resgistrarse))
+        self.assertTrue(page.find_element_x_path(page.header_ayuda))
+        self.assertTrue(page.find_element_x_path(page.hacht_logo))
+
+
+    def test_caso_prueba_27(self):
+        page = self.page
+        page = page.click_header_ingresar()
+        page = page.iniciar_sesion('medico@email.com', '12345')
+
+        self.assertTrue(page.find_element_x_path(page.hacht_logo))
+        self.assertTrue(page.find_element_x_path(page.log_header_mis_pacientes))
+        self.assertTrue(page.find_element_x_path(page.header_ayuda))
+        self.assertTrue(page.find_element_x_path(page.header_demo))
+        self.assertTrue(page.find_element_x_path(page.header_contactenos))
+        self.assertTrue(page.find_element_x_path(page.header_sobre_nosotros))
+        self.assertTrue(page.find_element_x_path(page.log_header_cerrar))
+
+
+
+    def test_caso_prueba_28(self):
+        page = self.page
+        page = page.click_header_ingresar()
+        page = page.iniciar_sesion('investigador@email.com', '12345')
+
+        self.assertTrue(page.find_element_x_path(page.hacht_logo))
+        self.assertTrue(page.find_element_x_path(page.log_header_mis_sesiones))
+        self.assertTrue(page.find_element_x_path(page.header_ayuda))
+        self.assertTrue(page.find_element_x_path(page.header_demo))
+        self.assertTrue(page.find_element_x_path(page.header_contactenos))
+        self.assertTrue(page.find_element_x_path(page.header_sobre_nosotros))
+        self.assertTrue(page.find_element_x_path(page.log_header_cerrar))
+
+

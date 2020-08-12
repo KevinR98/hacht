@@ -1,10 +1,9 @@
-from django.test import TestCase
 from selenium import webdriver
 
 class Base:
 
     def __init__(self, webdriver):
-
+        self.element_error = '/html/body/main/section/div/div/h2'
         self.driver = webdriver
 
     def firefox_webdriver(self):
@@ -17,13 +16,15 @@ class Base:
         try:
             return self.driver.find_element_by_xpath(xpath)
         except:
-            return None
+            return False
 
     def x_click(self, xpath):
-        self.find_element_x_path(xpath).click()
+        element = self.driver.find_element_by_xpath(xpath)
+        element.click()
 
     def x_write_entry(self, text, xpath):
-        self.find_element_x_path(xpath).send_keys(text)
+        element = self.driver.find_element_by_xpath(xpath)
+        element.send_keys(text)
 
     def get_url(self):
         url = self.driver.current_url
