@@ -1,10 +1,19 @@
 
-from selenium import webdriver
+from .contact_us_page import Contact_us_page
+from .dashboard_pacientes import Dashboard_pacientes_page
+from .dashboard_sesiones import Dashboard_sesiones_page
+from .demo_page import Demo_page
+from .features_page import Features_page
+from .help_page import Help_page
+from .about_us_page import About_us_page
+from .login_page import Login_page
+from .registration_page import Registration_page
+
 from ..Base import Base
 
 class Index_page(Base):
 
-    def __init__(self):
+    def __init__(self, driver):
         self.header_inicio = '/html/body/nav/div/div/ul/li[6]/a'
         self.header_demo = '/html/body/nav/div/div/ul/li[2]/a'
         self.header_caracteristicas = '/html/body/nav/div/div/ul/li[3]/a'
@@ -12,22 +21,26 @@ class Index_page(Base):
         self.header_resgistrarse = '/html/body/nav/div/div/ul/li[5]/a'
         self.header_ingresar = '/html/body/nav/div/div/ul/li[6]/a'
 
-        super(Index_page, self).__init__(Base.firefox_webdriver(self))
-        self.driver.get('http://127.0.0.1:8000/')
+        super(Index_page, self).__init__(driver)
 
 
 
     def click_header_demo(self):
         self.x_click(self.header_demo)
+        return Demo_page(self.driver)
 
     def click_header_caracteristicas(self):
         self.x_click(self.header_caracteristicas)
+        return Features_page(self.driver)
 
     def click_header_sobre_nosotros(self):
         self.x_click(self.header_sobre_nosotros())
+        return About_us_page(self.driver)
 
     def click_header_registrarse(self):
         self.x_click(self.header_resgistrarse)
+        return Registration_page(self.driver)
 
     def click_header_ingresar(self):
         self.x_click(self.header_ingresar)
+        return Login_page(self.driver)
