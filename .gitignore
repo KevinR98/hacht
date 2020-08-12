@@ -4,3 +4,5 @@
 #Ignore multiple "pychache" folders
 **/__pycache__
 .idea/
+
+hacht/geckodriver.log
