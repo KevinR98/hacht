@@ -597,7 +597,7 @@ class web_client:
     def ayuda(self, request):
         return render(request, 'index/help.html')
 
-    #TODO este metodo lee el mensaje pero nunca es guardado en la BD.
+
     def contact_us(self, request):
 
         if request.method == "GET":
@@ -610,13 +610,22 @@ class web_client:
             form = ContactUsForm(request.POST)
 
             if(form.is_valid()):
+
                 nombre = request.POST["nombre"]
-                asunto = request.POST["asunto"]
+                subject = settings.SUBJECT + ' ' + request.POST["asunto"]
                 email = request.POST["email"]
-                mensaje = request.POST["mensaje"]
 
+                message = "El sujeto '" + nombre + "' del correo '" + email + "' dice: \n \n\"" + request.POST["mensaje"] + "\""
 
-                return redirect('contact_us')
+                context = {'form': ContactUsForm(), 'email_successful': True}
+                return render(request, 'index/contact-us.html', context)
+
+            else:
+                return self.handle_error(
+                    request,
+                    status=404,
+                    message="Ha ocurrido un problema realizando la acción."
+                )
 
         else:
             return self.handle_error(
@@ -624,7 +633,6 @@ class web_client:
                 status=404,
                 message="Ha ocurrido un problema realizando la acción."
             )
-
 
     def features(self, request):
         return render(request, 'index/features.html')
