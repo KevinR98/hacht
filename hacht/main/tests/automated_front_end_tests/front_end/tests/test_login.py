@@ -1,6 +1,8 @@
 
 import time
-from django.test import TestCase
+
+from django.contrib.auth.models import User
+from django.test import LiveServerTestCase, TestCase
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
@@ -9,8 +11,10 @@ from ..page_functionality.index_page import Index_page
 
 
 class LoginTestCase(TestCase):
+    port = 8000
 
     def setUp(self):
+        #self.setup_db()
         self.driver = webdriver.Firefox()
         self.wait = WebDriverWait(self.driver, 10)
         self.page = Index_page(self.driver)
@@ -18,22 +22,71 @@ class LoginTestCase(TestCase):
 
         super(LoginTestCase, self).setUp()
 
+
     def tearDown(self):
         self.page.driver.quit()
         super(LoginTestCase, self).tearDown()
 
+        #self.clean_db()
+
+
+
+    def setup_db(self):
+        medico = User(username='medico',
+                        email='medico@email.com',
+                        first_name='NombreMedico')
+        medico.set_password('12345')
+        medico.save()
+
+        medico.profile.rol = '0' #Rol de doctor
+        medico.profile.org = 'Ejemplo inc.'
+        medico.save()
+
+
+        investigador = User(username='investigador',
+                        email='investigador@email.com',
+                        first_name='NombreInvestigador')
+
+        investigador.set_password('12345')
+        investigador.save()
+
+        investigador.profile.rol = '1' #Rol de investigador
+        investigador.profile.org = 'Ejemplo inc.'
+        investigador.save()
+
+
+        usuario = User(username='correo',
+                        email='correo@email.com',
+                        first_name='NombreInvestigador')
+
+        usuario.set_password('12345')
+        usuario.save()
+
+        usuario.profile.rol = '1' #Rol de investigador
+        usuario.profile.org = 'Ejemplo inc.'
+        usuario.save()
+
+    def clean_db(self):
+        medico = User.objects.get(username='medico')
+        investigador = User.objects.get(username='investigador')
+        usuario = User.objects.get(username='correo')
+
+        medico.delete()
+        investigador.delete()
+        usuario.delete()
 
     def test_caso_prueba_1(self):
         index_p = self.page
         register_p = index_p.click_header_registrarse()
-        register_p.registrarse("Nombre", "fgr@email.com", '12345', 'medico', 'Empresa', 'Prueba')
-
+        register_p.registrarse("Nombre", "correo@email.com", '12345', 'medico', 'Empresa', 'Prueba')
+        time.sleep(3)
+        
         self.assertTrue(register_p.find_element_x_path(register_p.modal_success))
 
     def test_caso_prueba_2(self):
         index_p = self.page
         register_p = index_p.click_header_registrarse()
-        register_p.registrarse("", "fgr@email.com", '12345', 'medico', 'Empresa', 'Prueba')
+        register_p.registrarse("", "correo@email.com", '12345', 'medico', 'Empresa', 'Prueba')
 
         self.assertTrue(register_p.find_element_x_path(register_p.error_message))
 
