@@ -14,12 +14,22 @@ from ..Base import Base
 class Index_page(Base):
 
     def __init__(self, driver):
+        self.user_email_text = '/html/body/nav/div/span'
+
         self.header_inicio = '/html/body/nav/div/div/ul/li[6]/a'
         self.header_demo = '/html/body/nav/div/div/ul/li[2]/a'
         self.header_caracteristicas = '/html/body/nav/div/div/ul/li[3]/a'
         self.header_sobre_nosotros = '/html/body/nav/div/div/ul/li[4]/a'
+        self.header_contactenos = '/html/body/nav/div/div/ul/li[2]/a'
         self.header_resgistrarse = '/html/body/nav/div/div/ul/li[5]/a'
         self.header_ingresar = '/html/body/nav/div/div/ul/li[6]/a'
+
+        self.log_header_mis_pacientes = '/html/body/nav/div/div/ul/li[1]/a/span'
+        self.log_header_ayuda = '/html/body/nav/div/div/ul/li[1]/a/span'
+        self.log_header_cerrar = '/html/body/nav/div/div/ul/li[6]/a/span'
+
+        self.log_header_mis_sesiones = '/html/body/nav/div/div/ul/li[1]/a/span'
+
 
         super(Index_page, self).__init__(driver)
 
@@ -44,3 +54,10 @@ class Index_page(Base):
     def click_header_ingresar(self):
         self.x_click(self.header_ingresar)
         return Login_page(self.driver)
+
+    def click_header_contactenos(self):
+        self.x_click(self.header_contactenos)
+        return Contact_us_page(self.driver)
+
+    def click_header_cerrar(self):
+        self.x_click(self.log_header_cerrar)

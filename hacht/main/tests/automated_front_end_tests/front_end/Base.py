@@ -14,7 +14,10 @@ class Base:
         self.driver.get(locator)
 
     def find_element_x_path(self, xpath):
-        return self.driver.find_element_by_xpath(xpath)
+        try:
+            return self.driver.find_element_by_xpath(xpath)
+        except:
+            return None
 
     def x_click(self, xpath):
         self.find_element_x_path(xpath).click()
