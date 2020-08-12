@@ -17,19 +17,20 @@ class Index_page(Base):
         self.hacht_logo = '/html/body/nav/div/a'
         self.user_email_text = '/html/body/nav/div/span'
 
-        self.header_inicio = '/html/body/nav/div/div/ul/li[6]/a'
+        self.header_ayuda = '/html/body/nav/div/div/ul/li[1]/a/span'
         self.header_demo = '/html/body/nav/div/div/ul/li[2]/a'
-        self.header_caracteristicas = '/html/body/nav/div/div/ul/li[3]/a'
-        self.header_sobre_nosotros = '/html/body/nav/div/div/ul/li[4]/a'
         self.header_contactenos = '/html/body/nav/div/div/ul/li[3]/a'
+        self.header_sobre_nosotros = '/html/body/nav/div/div/ul/li[4]/a'
         self.header_resgistrarse = '/html/body/nav/div/div/ul/li[5]/a'
         self.header_ingresar = '/html/body/nav/div/div/ul/li[6]/a'
-        self.header_ayuda = '/html/body/nav/div/div/ul/li[1]/a/span'
 
         self.log_header_mis_pacientes = '/html/body/nav/div/div/ul/li[1]/a/span'
-        self.log_header_cerrar = '/html/body/nav/div/div/ul/li[6]/a/span'
         self.log_header_mis_sesiones = '/html/body/nav/div/div/ul/li[1]/a/span'
-
+        self.log_header_ayuda = '/html/body/nav/div/div/ul/li[2]/a/span'
+        self.log_header_demo = '/html/body/nav/div/div/ul/li[3]/a'
+        self.log_header_contactenos = '/html/body/nav/div/div/ul/li[4]/a'
+        self.log_header_sobre_nosotros = '/html/body/nav/div/div/ul/li[5]/a'
+        self.log_header_cerrar = '/html/body/nav/div/div/ul/li[6]/a/span'
 
         self.footer_ayuda = '/html/body/footer/div[1]/div/div[3]/ul/li[1]/a'
 
@@ -40,10 +41,6 @@ class Index_page(Base):
     def click_header_demo(self):
         self.x_click(self.header_demo)
         return Demo_page(self.driver)
-
-    def click_header_caracteristicas(self):
-        self.x_click(self.header_caracteristicas)
-        return Features_page(self.driver)
 
     def click_header_sobre_nosotros(self):
         self.x_click(self.header_sobre_nosotros())
